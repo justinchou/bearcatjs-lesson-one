@@ -1,0 +1,6 @@
+{
+  "name": "room-manager",
+  "//scan": "constructor-base",
+  "scan": "object-base",
+  "namespace": "di"
+}
