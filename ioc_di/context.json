@@ -1,6 +1,6 @@
 {
-  "name": "room-manager",
+  "name": "ioc_di_test",
   "//scan": "constructor-base",
   "scan": "object-base",
-  "namespace": "di"
+  "namespace": "IocDi"
 }

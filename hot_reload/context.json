@@ -1,0 +1,4 @@
+{
+  "name": "zchat",
+  "scan": ["app", "hot"]
+}
