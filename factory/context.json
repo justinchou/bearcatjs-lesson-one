@@ -1,0 +1,5 @@
+{
+  "name": "factory_test",
+  "scan": "app",
+  "namespace": "Factory"
+}
