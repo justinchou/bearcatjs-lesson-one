@@ -64,6 +64,86 @@ tags:
 }
 ```
 
+### 两种注入方法的整理说明
+
+基于构造函数依赖注入 - args配置
+
+通过参数中 $ 符号注入, args ref注入, args type注入
+
+    // app/Car.js : 参数中 $ 符号注入, 普通的value以参数形式传入
+    function Car($engine, licence) {
+        this.$id = "car";
+        this.$scope = "prototype";
+    
+        this.engine = $engine;
+        this.licence = licence;
+    }
+    module.exports = Car;
+    
+    // app/Moto.js : args ref注入, args type注入
+    function Moto(engine, licence) {
+        this.engine = engine;
+        this.licence = licence;
+    }
+    module.exports = {
+        "id": "moto",
+        "func": Moto,
+        "args": [{
+            "name": "engine",
+            "ref": "engine"
+        }, {
+            "name": "licence",
+            "type": "String"
+        }]
+    };
+
+    // 调用
+    let car = Bearcat.getBean('car', "辽A863273");
+    let moto = Bearcat.getBean('moto', "辽BMW1100");
+    
+
+基于属性依赖注入 - props配置
+
+通过带有 $ 的变量名注入, props ref注入, props value注入
+
+    // app/Bus.js : 带有 $ 的变量名注入
+    function Bus() {
+        this.$id = "bus";
+        this.$scope = "prototype";
+    
+        this.$engine = null;
+        this.licence = "${default.licence}";
+    }
+    module.exports = Bus;
+    
+    // config/dev/bus.json
+    {"default.licence":"军V100009"}
+    
+    // app/Truck.js : props ref注入, props value注入
+    function Truck() {
+        this.engine = null;
+        this.licence = null;
+    }
+    module.exports = {
+        "id": "truck",
+        "func": Truck,
+        "props": [{
+            "name": "engine",
+            "ref": "engine"
+        }, {
+            "name": "licence",
+            "value": "${default.licence}"
+        }]
+    };
+    
+    // config/dev/truck.json
+    {"default.licence":"警B184312"}
+    
+    // 调用
+    let bus = Bearcat.getBean('bus');
+    let truck = Bearcat.getBean('truck');
+
+
 ### 关于两种方法
 
 两种方法都可以注入bean对象, 注入value属性, 注入variable属性.
