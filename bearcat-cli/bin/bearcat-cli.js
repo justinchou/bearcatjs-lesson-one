@@ -19,10 +19,9 @@ const Readline = require('readline');
 
 let Version = require('../package.json').version;
 
+let Templates = ["demo", "express"];
 let MODE_0666 = parseInt('0666', 8);
 let MODE_0755 = parseInt('0755', 8);
-
-let Templates = ["demo", "express"];
 
 let rootPath = process.cwd();
 let appName = 'bearcat-proj';
@@ -37,15 +36,34 @@ Program
 Program
     .command('init')
     .alias('i')
-    .usage('[options] [path]')
+    // .usage('[options] [path]')
     .description('初始化项目')
-    .option('-n, --name [value]', '目标名称, 默认为 demo 默认模板, 支持 ' + Templates.join(","))
+    .option('-n, --name [value]', '模板名称, 默认为 demo 默认模板, 支持 ' + Templates.join(", "))
     .option('-H, --hot', '使用热加载模式, 默认为false')
     .option('-s, --silent', "使用静默模式, 尽量减少日志")
     .option('    --git', '增加 .gitignore 文件')
     .option('-f, --force', '强制在非空目录下创建工程')
-    .action(function (option) {
-        let destinationPath = Program.args.shift() || '.';
+    .action(function (destinationPath) {
+        // 防止传入多个没有 --xx 的参数
+        let args = Array.prototype.slice.apply(arguments);
+        let option = args.pop();
+
+        console.log();
+        console.log(Chalk.green("   传入参数为:  ") + args.join('  '));
+        console.log(Chalk.green("   开关选项为:  ") + JSON.stringify({
+            name: option.name,
+            hot: option.hot,
+            silent: option.silent,
+            git: option.git,
+            force: option.force
+        }));
+        console.log();
+
+
+        if (destinationPath instanceof Program.Command) {
+            destinationPath = ".";
+        }
+
         appName = createAppName(Path.resolve(destinationPath)) || appName;
         silent = option.silent || false;
 
@@ -57,6 +75,7 @@ Program
         let hot = option.hot || false;
         let git = option.git || false;
         let force = option.force || false;
+
         createProject(hot, force, git, destinationPath);
     });
 
@@ -72,7 +91,7 @@ function createProject(hot, force, git, destinationPath) {
                     process.stdin.destroy();
                     createApplication(hot, git, destinationPath)
                 } else {
-                    console.error('aborting');
+                    console.error(Chalk.red('aborting'));
                 }
             });
         }
@@ -80,58 +99,73 @@ function createProject(hot, force, git, destinationPath) {
 }
 
 function createApplication(hot, git, path) {
-    let wait = 5;
     mkdir(path, () => {
-        mkdir(path + '/app', () => {
-            copyTemplate('/app/Engine.js', path + '/app/Engine.js');
+        switch (template) {
+            case Templates[0]:
+            case "demo":
+                createDemoProject(hot, git, path);
+                break;
+            case Templates[1]:
+            case "express":
 
-            copyTemplate('/app/Transport.js', path + '/app/Transport.js');
-
-            copyTemplate('/app/Car.js', path + '/app/Car.js');
-            copyTemplate('/app/Moto.js', path + '/app/Moto.js');
-
-            copyTemplate('/app/Bus.js', path + '/app/Bus.js');
-            copyTemplate('/app/Truck.js', path + '/app/Truck.js');
-        });
-        mkdir(path + '/config', () => {
-            mkdir(path + '/config/dev', () => {
-                copyTemplate('/config/dev/bus.json', path + '/config/dev/bus.json');
-                copyTemplate('/config/dev/truck.json', path + '/config/dev/truck.json');
-            });
-            mkdir(path + '/config/prod');
-        });
-
-        if (git) copyTemplate('../shared/gitignore', path + '/.gitignore');
-
-        let index;
-        if (hot) {
-            index = "hot.js";
-            mkdir(path + '/hot');
-        } else {
-            index = "app.js";
+                break;
+            default:
+                break;
         }
-        copyTemplate(index, path + '/' + index);
-
-        let pkg = {
-            name: appName,
-            version: '0.0.0',
-            private: true,
-            scripts: {
-                start: 'node ' + index
-            },
-            dependencies: {
-                'bearcat': 'latest'
-            }
-        };
-        write(path + '/package.json', JSON.stringify(pkg, null, 2) + "\n");
-
-        let context = {
-            "name": appName,
-            "scan": ["app"]
-        };
-        if (hot) context.scan.push("hot");
-        write(path + '/context.json', JSON.stringify(context, null, 2) + "\n");
     });
+}
+
+function createDemoProject(hot, git, path) {
+    mkdir(path + '/app', () => {
+        copyTemplate('/app/Engine.js', path + '/app/Engine.js');
+
+        copyTemplate('/app/Transport.js', path + '/app/Transport.js');
+
+        copyTemplate('/app/Car.js', path + '/app/Car.js');
+        copyTemplate('/app/Moto.js', path + '/app/Moto.js');
+
+        copyTemplate('/app/Bus.js', path + '/app/Bus.js');
+        copyTemplate('/app/Truck.js', path + '/app/Truck.js');
+    });
+    mkdir(path + '/config', () => {
+        mkdir(path + '/config/dev', () => {
+            copyTemplate('/config/dev/bus.json', path + '/config/dev/bus.json');
+            copyTemplate('/config/dev/truck.json', path + '/config/dev/truck.json');
+        });
+        mkdir(path + '/config/prod');
+    });
+
+    if (git) copyTemplate('../shared/gitignore', path + '/.gitignore');
+
+    let context = {
+        "name": appName,
+        "scan": []
+    };
+    let index;
+    if (hot) {
+        index = "hot.js";
+        mkdir(path + '/hot');
+        context.scan.push("hot");
+    } else {
+        index = "app.js";
+    }
+    copyTemplate(index, path + '/' + index);
+
+    context.scan.push("app");
+    write(path + '/context.json', JSON.stringify(context, null, 2) + "\n");
+
+    let pkg = {
+        name: appName,
+        version: '0.0.0',
+        private: true,
+        scripts: {
+            start: 'node ' + index
+        },
+        dependencies: {
+            'bearcat': 'latest'
+        }
+    };
+    write(path + '/package.json', JSON.stringify(pkg, null, 2) + "\n");
 }
 
 function confirm(msg, callback) {
@@ -168,7 +202,7 @@ function emptyDirectory(path, fn) {
 function mkdir(path, fn) {
     Mkdirp(path, MODE_0755, function (err) {
         if (err) throw err;
-        console.log(Chalk.green('   create : ') + path);
+        console.log(Chalk.green('   创建文件夹 : ') + path);
         fn && fn()
     });
 }
@@ -183,5 +217,5 @@ function warning(message) {
 
 function write(path, str, mode) {
     FS.writeFileSync(path, str, {mode: mode || MODE_0666});
-    console.log(Chalk.green('   create : ') + path);
+    console.log(Chalk.green('   创建文件   : ') + path);
 }
