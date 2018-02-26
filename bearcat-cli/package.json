@@ -1,13 +1,15 @@
 {
   "name": "bearcat-cli",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "using bearcat as shell command to handle a list of problems just as express-generator :)",
-  "main": "index.js",
+  "main": "bin/bearcat-cli.js",
   "bin": {
-    "bearcat": "./bin/bearcat-cli.js"
+    "bearcat": "./bin/bearcat-cli.js",
+    "bearcat-cli": "./bin/bearcat-cli.js"
   },
   "repository": "http://",
   "author": "JustinChou <zhou78620051@126.com>",
+  "contributors": [],
   "license": "MIT",
   "dependencies": {
     "chalk": "^2.3.1",
