@@ -9,7 +9,7 @@
 'use strict';
 
 
-let Bearcat = require('bearcat');
+const Bearcat = require('bearcatjs');
 
 let Car = function Car() {
     this.$id = "car";

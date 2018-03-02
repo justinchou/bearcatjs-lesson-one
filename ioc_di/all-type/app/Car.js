@@ -1,6 +1,6 @@
 'use strict';
 
-const Bearcat = require('bearcat');
+const Bearcat = require('bearcatjs');
 
 // 基于构造函数注入 - 内部魔术语法糖
 

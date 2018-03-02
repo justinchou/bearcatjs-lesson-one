@@ -8,7 +8,7 @@
 
 'use strict';
 
-const Bearcat = require('bearcat');
+const Bearcat = require('bearcatjs');
 
 // 基于属性注入 - 外部配置方法(props)
 

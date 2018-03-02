@@ -8,7 +8,7 @@
 
 'use strict';
 
-let Bearcat = require('bearcat');
+const Bearcat = require('bearcatjs');
 
 /**
  * 基于对象属性的依赖注入

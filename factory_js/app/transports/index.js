@@ -8,7 +8,7 @@
 
 'use strict';
 
-let Bearcat = require('bearcat');
+const Bearcat = require('bearcatjs');
 let FS = require('fs');
 let Path = require('path');
 

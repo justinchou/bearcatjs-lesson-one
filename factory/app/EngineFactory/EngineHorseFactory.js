@@ -9,7 +9,7 @@
 'use strict';
 
 
-let Bearcat = require('bearcat');
+const Bearcat = require('bearcatjs');
 let EngineHorse = require('../Engines/EngineHorse');
 
 let EngineHorseFactory = function EngineHorseFactory() {

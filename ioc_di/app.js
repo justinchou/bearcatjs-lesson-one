@@ -8,7 +8,7 @@
 
 'use strict';
 
-let Bearcat = require('bearcat');
+const Bearcat = require('bearcatjs');
 
 // 解析上下文配置文件, 需要使用全路径; 配置文件里面写的scan路径, 就是存放脚本的路径.
 let configPaths = [require.resolve('./context.json')];

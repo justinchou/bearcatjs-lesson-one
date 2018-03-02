@@ -9,6 +9,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bearcat": "^0.4.29"
+    "bearcatjs": "^1.0.7"
   }
 }

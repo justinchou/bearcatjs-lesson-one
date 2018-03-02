@@ -8,7 +8,7 @@
 
 'use strict';
 
-let Bearcat = require('bearcat');
+const Bearcat = require('bearcatjs');
 
 /**
  * 本例子基于上一个测试ioc_di项目中的规定, 对象注入使用参数, 属性注入使用占位符
