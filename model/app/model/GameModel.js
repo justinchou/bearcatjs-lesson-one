@@ -13,9 +13,9 @@ let GameModel = function GameModel() {
     this.$table   = 'game';
     this.$prefix  = 'game_';
 
-    this.id = '$primary;type:Number';
-    this.name = '$type:String;notNull';
-    this.server = '$type:String;notNull;pattern(regexp=:)';
+    this.id       = '$primary;type:Number';
+    this.name     = '$type:String;notNull';
+    this.server   = '$type:String;notNull;pattern(regexp=:)';
 };
 
 bearcat.module(GameModel, typeof module !== 'undefined' ? module : {});

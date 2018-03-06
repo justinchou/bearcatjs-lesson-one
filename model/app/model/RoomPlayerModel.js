@@ -9,14 +9,14 @@
 'use strict';
 
 
-//const bearcat = require('bearcat');
+//const bearcat = require('bearcatjs');
 
 let RoomPlayerModel = function RoomPlayerModel() {
-    this.$mid     = 'roomPlayerModel';
-    this.$prefix  = '';
+    this.$mid       = 'roomPlayerModel';
+    this.$prefix    = '';
 
-    this.user     = '$type:Object;ref:userModel';
-    this.games    = '$type:Object;ref:gameModel';
+    this.user       = '$type:Object;ref:userModel';
+    this.games      = '$type:Object;ref:gameModel';
     this.characters = '$type:Array;ref:characterModel';
 
 };

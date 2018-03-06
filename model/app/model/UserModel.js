@@ -20,7 +20,7 @@ let UserModel = function() {
     this.gender   = "$type:Number:default:1";
     this.age      = "$type:Number;max:99;min:18;notNull;default:18";
     this.location = "$pattern(regexp=beijing);size(max=64,min=10)";
-    this.addr     = "$pattern(regexp=liaoning);size(max=15,min=12)";
+    this.addr     = "$pattern(regexp=liaoning);size(max=25,min=12)";
 };
 UserModel.prototype.checkNum = function(k, v) {
     if (typeof v !== "number") {

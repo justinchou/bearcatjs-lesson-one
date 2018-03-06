@@ -9,7 +9,7 @@
 'use strict';
 
 
-//const bearcat = require('bearcat');
+//const bearcat = require('bearcatjs');
 
 let LevelConstraint = function LevelConstraint() {
     this.$cid    = 'characterLevel';

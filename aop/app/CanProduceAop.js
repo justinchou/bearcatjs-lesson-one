@@ -9,7 +9,7 @@
 'use strict';
 
 
-//const bearcat = require('bearcat');
+//const bearcat = require('bearcatjs');
 
 let CanProduceAop = function CanProduceAop() {
     this.$id = 'canProduceAop';
