@@ -1,4 +1,37 @@
 {
   "name": "model",
-  "scan": ["app"]
+  "scan": [
+    "app"
+  ],
+  "dependencies": {
+    "bearcatjs-dao": "*"
+  },
+  "beans": [
+    {
+      "id": "mysqlConnectionManager",
+      "func": "node_modules.bearcatjs-dao.lib.connection.sql.mysqlConnectionManager",
+      "props": [
+        {
+          "name": "port",
+          "value": "${mysql.port}"
+        },
+        {
+          "name": "host",
+          "value": "${mysql.host}"
+        },
+        {
+          "name": "user",
+          "value": "${mysql.user}"
+        },
+        {
+          "name": "password",
+          "value": "${mysql.password}"
+        },
+        {
+          "name": "database",
+          "value": "${mysql.database}"
+        }
+      ]
+    }
+  ]
 }

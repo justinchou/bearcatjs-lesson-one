@@ -1,0 +1,7 @@
+{
+  "mysql.port": 3306,
+  "mysql.host": "localhost",
+  "mysql.user": "root",
+  "mysql.password": "123456",
+  "mysql.database": "bearcat_model"
+}
